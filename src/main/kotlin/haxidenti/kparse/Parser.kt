@@ -15,11 +15,13 @@ class Parser(
     private var line = 1
     private val info get() = FileInfo(fileName, line)
 
-    fun parse(src: CharSequence) = sequence {
+    fun parse() = sequence {
         while (pos < source.length) {
-            yield(
-                parseOne(src.substring(pos, src.length))
-            )
+            val slice = source.substring(pos, source.length)
+            val token = parseOne(slice)
+            yield(token)
+            pos += token.symbols
+            line += token.nextLineSymbols
         }
     }
 

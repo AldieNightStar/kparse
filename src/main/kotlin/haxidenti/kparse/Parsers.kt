@@ -1,5 +1,7 @@
 package haxidenti.kparse
 
+import java.io.File
+
 
 typealias TokenMapper<T> = (T) -> Token
 
@@ -7,6 +9,8 @@ open class RegexToken(info: FileInfo, val value: String) :
     Token(info, value.length, value.count { it == '\n' })
 
 class WordToken(info: FileInfo, value: String) : RegexToken(info, value)
+
+class WhiteSpaceToken(info: FileInfo, value: CharSequence) : Token(info, value.length, value.count { it == '\n' })
 
 class StringToken(info: FileInfo, val value: String, symbols: Int) :
     Token(info, symbols, 0)
@@ -89,6 +93,8 @@ object Parsers {
             null
         }
     }
+
+    val whiteSpace = regex("\\s+".toRegex()) { WhiteSpaceToken(it.info, it.value) }
 
 }
 

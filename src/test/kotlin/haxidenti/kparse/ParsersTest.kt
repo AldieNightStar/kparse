@@ -25,8 +25,4 @@ class ParsersTest {
         (Parsers.string()(info, "'\\n123'") as StringToken).value eq "\n123"
         Parsers.string()(info, "x'1'") eq null
     }
-
-    private infix fun <T> T.eq(expected: T) {
-        assertEquals(expected, this)
-    }
 }
