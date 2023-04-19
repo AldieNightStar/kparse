@@ -85,9 +85,9 @@ object Parsers {
         if (src.startsWith(commentPrefix)) {
             val index = src.indexOf('\n')
             if (index < 0) {
-                CommentToken(info, src, 0)
+                CommentToken(info, src.subSequence(1, src.length), 0)
             } else {
-                CommentToken(info, src.substring(0, index), 0)
+                CommentToken(info, src.subSequence(1, index), 0)
             }
         } else {
             null
