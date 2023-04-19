@@ -2,26 +2,6 @@ package haxidenti.kparse
 
 import java.io.File
 
-
-typealias TokenMapper<T> = (T) -> Token
-
-open class RegexToken(info: FileInfo, val value: String) :
-    Token(info, value.length, value.count { it == '\n' })
-
-class WordToken(info: FileInfo, value: String) : RegexToken(info, value)
-
-class WhiteSpaceToken(info: FileInfo, value: CharSequence) : Token(info, value.length, value.count { it == '\n' })
-
-class StringToken(info: FileInfo, val value: String, symbols: Int) :
-    Token(info, symbols, 0)
-
-class NumberToken(info: FileInfo, val value: String) : Token(info, value.length, 0) {
-    val isFloating get() = value.contains(".")
-    val number get() = value.toDouble()
-}
-
-class CommentToken(info: FileInfo, val value: CharSequence, nextLines: Int) : Token(info, value.length, nextLines)
-
 private val NUMBER_FLOAT = "-?\\d+\\.\\d+".toRegex()
 private val NUMBER_INT = "-?\\d+".toRegex()
 private val WORD = "[a-zA-Z_\$]+[a-zA-Z0-9_\$]?".toRegex()

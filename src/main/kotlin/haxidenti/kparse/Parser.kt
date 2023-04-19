@@ -2,8 +2,6 @@ package haxidenti.kparse
 
 class FileInfo(val filename: String, val line: Int)
 
-open class Token(val info: FileInfo, val symbols: Int, val nextLineSymbols: Int)
-
 typealias ParserFunc = (info: FileInfo, src: CharSequence) -> Token?
 
 class Parser(
