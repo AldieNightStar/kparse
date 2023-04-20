@@ -57,5 +57,8 @@ class Parser(
     }
 
     private fun parseOne(src: String) = rootParsers
-        .firstNotNullOfOrNull { it(info, src) } ?: throw ParserException(info, "Unknown token")
+        .firstNotNullOfOrNull { it(info, src) }
+            ?: throw ParserException(info, "Unknown token: ${src.subSequence(0, 32.max(src.length))}")
+
+    private fun Int.max(n: Int) = if (this <= n) this else n
 }

@@ -7,11 +7,13 @@ class ParserTest {
     @Test
     fun testParser() {
         val tokens = Parser(
-            "source", "'alone'  in \n\t123", listOf(
+            "source", "'alone'  in \n\t123()", listOf(
                 Parsers.wordParser,
                 Parsers.whiteSpace,
                 Parsers.string(),
-                Parsers.numberParser
+                Parsers.numberParser,
+                Parsers.operator,
+                Parsers.bracket
             )
         ).parse().toList()
 
@@ -20,5 +22,7 @@ class ParserTest {
         (tokens[2] as WordToken).value eq "in"
         (tokens[3] as WhiteSpaceToken).symbols eq 3
         (tokens[4] as NumberToken).number eq 123.toDouble()
+        (tokens[5] as BracketToken).value eq "("
+        (tokens[6] as BracketToken).value eq ")"
     }
 }

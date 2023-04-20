@@ -3,8 +3,8 @@ package haxidenti.kparse
 private val NUMBER_FLOAT = "-?\\d+\\.\\d+".toRegex()
 private val NUMBER_INT = "-?\\d+".toRegex()
 private val WORD = "[a-zA-Z_\$]+[a-zA-Z0-9_\$]?".toRegex()
-private val SYMBOLS = "[!@#\$%^&*()_=\\-+\\/\\\\.,;'|~:]+".toRegex()
-private val BRACKETS = "\\(\\)\\[]<>\\{}".toRegex()
+private val SYMBOLS = "[!@#\$%^&*_=\\-+\\/\\\\.,;'|~:]+".toRegex()
+private val BRACKETS = "[()\\[\\]<>{}]".toRegex()
 
 object Parsers {
 
@@ -87,8 +87,8 @@ object Parsers {
         wordParser,
         numberParser,
         string(),
-        operator,
         bracket,
+        operator,
     )
 }
 

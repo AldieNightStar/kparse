@@ -1,6 +1,5 @@
 package haxidenti.kparse
 
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class ParsersTest {
@@ -32,5 +31,10 @@ class ParsersTest {
         (Parsers.commentUntilNextLineParser()(info, "# 123 123 123") as CommentToken).value eq " 123 123 123"
         (Parsers.commentUntilNextLineParser()(info, "# end\n123") as CommentToken).value eq " end"
         (Parsers.commentUntilNextLineParser()(info, "#\n") as CommentToken).value eq ""
+    }
+
+    @Test
+    fun testBrackets() {
+        (Parsers.bracket(info, "()") as BracketToken).value eq "("
     }
 }
