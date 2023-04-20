@@ -7,6 +7,7 @@ private val SYMBOLS = "[!@#\$%^&*()_=\\-+\\/\\\\.,;'|~:]+".toRegex()
 private val BRACKETS = "\\(\\)\\[]<>\\{}".toRegex()
 
 object Parsers {
+
     fun regex(regex: Regex, map: TokenMapper<RegexToken>): ParserFunc {
         val func: ParserFunc = { info: FileInfo, src: CharSequence ->
             regex.matchAt(src, 0)?.let {
@@ -79,6 +80,16 @@ object Parsers {
     val bracket = regex(BRACKETS) { BracketToken(it.info, it.value) }
 
     val operator = regex(SYMBOLS) { OperatorToken(it.info, it.value) }
+
+    val all = listOf(
+        whiteSpace,
+        commentUntilNextLineParser(),
+        wordParser,
+        numberParser,
+        string(),
+        operator,
+        bracket,
+    )
 }
 
 private val Char.escapeValue

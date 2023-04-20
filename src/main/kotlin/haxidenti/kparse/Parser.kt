@@ -14,15 +14,17 @@ class ParserBuilder(private val fileName: String) {
         return this
     }
 
-    fun parser(parser: ParserFunc) {
+    fun parser(parser: ParserFunc): ParserBuilder {
         parsers.add(parser)
+        return this
     }
 
-    fun parsers(parsers: Collection<ParserFunc>) {
+    fun parsers(parsers: Collection<ParserFunc>): ParserBuilder {
         parsers.forEach { this.parsers.add(it) }
+        return this
     }
 
-    val parser: Parser get() = Parser(fileName, source, parsers)
+    fun build() = Parser(fileName, source, parsers)
 }
 
 class Parser(
@@ -39,6 +41,9 @@ class Parser(
         fun of(fileName: String): ParserBuilder {
             return ParserBuilder(fileName)
         }
+
+        @JvmStatic
+        fun fullParser(fileName: String) = ParserBuilder(fileName).parsers(Parsers.all)
     }
 
     fun parse() = sequence {
