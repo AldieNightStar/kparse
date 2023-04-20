@@ -1,10 +1,10 @@
 package haxidenti.kparse
 
-import java.io.File
-
 private val NUMBER_FLOAT = "-?\\d+\\.\\d+".toRegex()
 private val NUMBER_INT = "-?\\d+".toRegex()
 private val WORD = "[a-zA-Z_\$]+[a-zA-Z0-9_\$]?".toRegex()
+private val SYMBOLS = "[!@#\$%^&*()_=\\-+\\/\\\\.,;'|~:]+".toRegex()
+private val BRACKETS = "\\(\\)\\[]<>\\{}".toRegex()
 
 object Parsers {
     fun regex(regex: Regex, map: TokenMapper<RegexToken>): ParserFunc {
@@ -76,6 +76,9 @@ object Parsers {
 
     val whiteSpace = regex("\\s+".toRegex()) { WhiteSpaceToken(it.info, it.value) }
 
+    val bracket = regex(BRACKETS) { BracketToken(it.info, it.value) }
+
+    val operator = regex(SYMBOLS) { OperatorToken(it.info, it.value) }
 }
 
 private val Char.escapeValue

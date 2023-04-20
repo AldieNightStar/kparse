@@ -20,3 +20,7 @@ class NumberToken(info: FileInfo, val value: String) : Token(info, value.length,
 }
 
 class CommentToken(info: FileInfo, val value: CharSequence, nextLines: Int) : Token(info, value.length, nextLines)
+
+class BracketToken(info: FileInfo, val value: String) : Token(info, 1, 0)
+
+class OperatorToken(info: FileInfo, val value: String) : Token(info, value.length, 0)

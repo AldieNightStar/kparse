@@ -1,5 +1,8 @@
 package haxidenti.kparse
 
 fun main(args: Array<String>) {
-    println("Hello, Kotlin!")
+    with(Parser.of("xxx.txt")) {
+        source("this is me")
+        parser(Parsers.wordParser)
+    }
 }
