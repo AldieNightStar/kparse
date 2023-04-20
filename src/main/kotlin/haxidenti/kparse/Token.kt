@@ -17,6 +17,7 @@ class StringToken(info: FileInfo, val value: String, symbols: Int) :
 class NumberToken(info: FileInfo, val value: String) : Token(info, value.length, 0) {
     val isFloating get() = value.contains(".")
     val number get() = value.toDouble()
+    val isNegative get() = value.startsWith("-")
 }
 
 class CommentToken(info: FileInfo, val value: CharSequence, nextLines: Int) : Token(info, value.length, nextLines)
