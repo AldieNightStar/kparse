@@ -22,6 +22,10 @@ class NumberToken(info: FileInfo, val value: String) : Token(info, value.length,
 
 class CommentToken(info: FileInfo, val value: CharSequence, nextLines: Int) : Token(info, value.length, nextLines)
 
-class BracketToken(info: FileInfo, val value: String) : Token(info, 1, 0)
+class BracketToken(info: FileInfo, val value: String) : Token(info, 1, 0) {
+    val isOpen = isOpenBracket(value)
+}
 
 class OperatorToken(info: FileInfo, val value: String) : Token(info, value.length, 0)
+
+private fun isOpenBracket(s: String) = s in listOf("(", "[", "{", "<")

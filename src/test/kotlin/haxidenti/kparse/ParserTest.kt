@@ -22,7 +22,7 @@ class ParserTest {
         (tokens[2] as WordToken).value eq "in"
         (tokens[3] as WhiteSpaceToken).symbols eq 3
         (tokens[4] as NumberToken).number eq 123.toDouble()
-        (tokens[5] as BracketToken).value eq "("
-        (tokens[6] as BracketToken).value eq ")"
+        (tokens[5] as BracketToken).apply { value eq "("; isOpen eq true }
+        (tokens[6] as BracketToken).apply { value eq ")"; isOpen eq false }
     }
 }
