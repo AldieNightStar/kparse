@@ -1,15 +1,17 @@
 package haxidenti.kparse
 
+import java.lang.IllegalArgumentException
+
 class FileInfo(val filename: String, val line: Int)
 
 typealias ParserFunc = (info: FileInfo, src: CharSequence) -> Token?
 
 class ParserBuilder(private val fileName: String) {
 
-    private var source: String = ""
+    private var source: CharSequence = ""
     private val parsers = mutableListOf<ParserFunc>()
 
-    fun source(src: String): ParserBuilder {
+    fun source(src: CharSequence): ParserBuilder {
         this.source = src
         return this
     }
@@ -24,12 +26,15 @@ class ParserBuilder(private val fileName: String) {
         return this
     }
 
-    fun build() = Parser(fileName, source, parsers)
+    fun build() = Parser(fileName, source, parsers.nonEmpty("Parsers"))
+
+    private fun <T> List<T>.nonEmpty(name: String) =
+        ifEmpty { throw IllegalArgumentException("$name should not be empty") }
 }
 
 class Parser(
     private val fileName: String,
-    private val source: String,
+    private val source: CharSequence,
     private val rootParsers: List<ParserFunc>
 ) {
     private var pos = 0
