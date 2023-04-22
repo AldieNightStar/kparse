@@ -3,7 +3,7 @@ package haxidenti.kparse.lisp
 import haxidenti.kparse.*
 import java.util.*
 
-class LispCommandToken(info: FileInfo, val tokens: List<Token>) : Token(info, tokens.symbols, 0) {
+class LispCommandToken(info: FileInfo, val tokens: List<Token>) : Token(info, tokens.symbols, 0, false) {
     val head get() = if (tokens.isNotEmpty()) tokens.first() else null
     val tail get() = tokens.slice(1 until tokens.size)
 }

@@ -9,7 +9,16 @@ open class RegexToken(info: FileInfo, val value: String) :
 
 class WordToken(info: FileInfo, value: String) : RegexToken(info, value)
 
-class WhiteSpaceToken(info: FileInfo, value: CharSequence) : Token(info, value.length, value.count { it == '\n' }, true)
+class WhiteSpaceToken(info: FileInfo, val value: CharSequence) :
+    Token(info, value.length, value.count { it == '\n' }, true) {
+    val tabulation: Int = value.fold(0) { acc, c ->
+        when (c) {
+            ' ' -> acc + 1
+            '\t' -> acc + 4
+            else -> 0
+        }
+    }
+}
 
 class StringToken(info: FileInfo, val value: String, symbols: Int) :
     Token(info, symbols, 0, false)
