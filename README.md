@@ -21,6 +21,10 @@ val tokens = Parser.fullParser(fileName).source(src).build().parse().toList()
 ```
 
 ## Add custom parsers
+* Custom parser should:
+  * If token is really as matching then create it and pass symbols count you used to parse it
+  * If token is NOT matching then return `null`
+  * If token took `"abc"` string and value is `abc` then use `5` symbols instead of `3` anyway
 ```kotlin
 // You take info (line and file name) and text. So you need to return Token.
 // Token should have some info and how much symbols it uses and \n symbols as well
