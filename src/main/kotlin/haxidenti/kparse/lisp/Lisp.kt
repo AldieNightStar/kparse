@@ -6,6 +6,16 @@ import java.util.*
 class LispCommandToken(info: FileInfo, val tokens: List<Token>) : Token(info, tokens.symbols, 0, false) {
     val head get() = if (tokens.isNotEmpty()) tokens.first() else null
     val tail get() = tokens.slice(1 until tokens.size)
+    val commandName
+        get(): String? {
+            val tok = head ?: return null
+            return when (tok) {
+                is WordToken -> tok.value
+                is OperatorToken -> tok.value
+                is NumberToken -> tok.value
+                else -> throw ParserException(info, "Can't get command name. Word/Operator/Number token is required")
+            }
+        }
 }
 
 fun parseLisp(fileName: String, src: CharSequence): List<Token> =
