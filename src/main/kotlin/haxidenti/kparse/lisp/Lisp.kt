@@ -2,9 +2,11 @@ package haxidenti.kparse.lisp
 
 import haxidenti.kparse.*
 import java.util.*
-import kotlin.collections.Collection
 
-class LispCommandToken(info: FileInfo, val tokens: List<Token>) : Token(info, tokens.symbols, 0)
+class LispCommandToken(info: FileInfo, val tokens: List<Token>) : Token(info, tokens.symbols, 0) {
+    val head get() = if (tokens.isNotEmpty()) tokens.first() else null
+    val tail get() = tokens.slice(1 until tokens.size)
+}
 
 fun parseLisp(fileName: String, src: CharSequence): List<Token> =
     parseLisp(Parser.fullParser(fileName).source(src).build().parse().toList())

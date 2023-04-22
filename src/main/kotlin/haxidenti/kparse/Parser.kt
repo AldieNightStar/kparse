@@ -2,7 +2,9 @@ package haxidenti.kparse
 
 import java.lang.IllegalArgumentException
 
-class FileInfo(val filename: String, val line: Int)
+class FileInfo(val filename: String, val line: Int) {
+    override fun toString() = "File: '$filename'  Line: $line"
+}
 
 typealias ParserFunc = (info: FileInfo, src: CharSequence) -> Token?
 
