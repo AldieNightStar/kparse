@@ -53,7 +53,7 @@ class Parser(
         fun fullParser(fileName: String) = ParserBuilder(fileName).parsers(Parsers.all)
     }
 
-    fun parse() = sequence {
+    fun parseNoSkip() = sequence {
         while (pos < source.length) {
             val slice = source.substring(pos, source.length)
             val token = parseOne(slice)
@@ -62,6 +62,8 @@ class Parser(
             line += token.nextLineSymbols
         }
     }
+
+    fun parse() = parseNoSkip().filter { !it.skipping }
 
     private fun parseOne(src: String) = rootParsers
         .firstNotNullOfOrNull { it(info, src) }
