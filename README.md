@@ -40,3 +40,45 @@ Parser.of(fileName).source(src)
     .parser(myParser) // Here we are adding our custom parser
     .build()
 ```
+
+# Lisp-like syntax parser
+
+```kotlin
+// Returns list of tokens
+val tokens = parseLisp("(+ 10 20 30)")
+
+// Then we can get each token
+val token = tokens[0]
+
+// Types of tokens:
+// - LispCommandToken - command which contains another tokens inside
+// - WordToken        - used for variable names or words without ""
+// - WhiteSpaceToken  - any of " \t\r\n" characters
+// - StringToken      - "This is a string token"
+// - CommentToken     - Stands for comments etc
+// - BracketToken     - Bracket token itself
+// - OperatorToken    - Token with symbols like "<<" or "::" etc
+
+// Check that token is of type Command: (command a b c etc)
+if (token is LispCommandToken) {
+  // Get size of tokens inside
+  token.tokens.size
+
+  // Take first token
+  val subtoken = token.tokens[0]
+  
+  // API for simple token
+  token.info.filename   // File name of that token
+  token.info.line       // Line of that token
+  token.symbols         // How much symbol it took during parsing
+  token.nextLineSymbols // How much \n symbols it contains
+  token.skipping        // Tells that this one is Not necessary
+
+  // Check that this is word token
+  if (subtoken is WordToken) {
+      // Get it's string value
+      val name = subtoken.value
+  }
+  
+}
+```
