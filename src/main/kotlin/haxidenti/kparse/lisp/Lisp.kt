@@ -26,10 +26,12 @@ fun parseLisp(tokens: List<Token>): List<Token> {
     tokens.forEach {
         if (it is BracketToken) {
             if (it.value == "(") {
+                // Add new list to the stack
                 stack.push(mutableListOf())
             } else if (it.value == ")") {
                 val list = stack.popOrNull()
                     ?: throw ParserException(it.info, "Too many closing brackets")
+                // Pop out list from stack and put to previous list (inside)
                 stack.peek().add(LispCommandToken(it.info, list))
             }
         } else {
