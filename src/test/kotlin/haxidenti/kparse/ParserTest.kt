@@ -28,11 +28,12 @@ class ParserTest {
 
     @Test
     fun testNamingWithSymbolsInTheMiddle() {
-        val src = "i32s"
+        val src = "i32s 23"
 
         val toks = Parser.fullParser("Test").source(src).build().parse().toList()
 
-        toks.size eq 1
+        toks.size eq 2
         (toks[0] as WordToken).value eq "i32s"
+        (toks[1] as NumberToken).value eq "23"
     }
 }
