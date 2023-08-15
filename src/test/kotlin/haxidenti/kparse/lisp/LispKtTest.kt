@@ -26,4 +26,18 @@ class LispKtTest {
             }
         }
     }
+
+    @Test
+    fun testLispWhenFuncsAreSym() {
+        val src = "(< 2 3)"
+        val toks = parseLisp("File", src)
+
+        toks.size eq 1
+        (toks[0] as LispCommandToken).tokens.let { tokens ->
+            tokens.size eq 3
+            (tokens[0] as BracketToken).value eq "<"
+            (tokens[1] as NumberToken).value eq "2"
+            (tokens[2] as NumberToken).value eq "3"
+        }
+    }
 }

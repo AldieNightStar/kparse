@@ -33,6 +33,9 @@ fun parseLisp(tokens: List<Token>): List<Token> {
                     ?: throw ParserException(it.info, "Too many closing brackets")
                 // Pop out list from stack and put to previous list (inside)
                 stack.peek().add(LispCommandToken(it.info, list))
+            } else {
+                // Add non "(" and ")" symbols as operator token
+                stack.peek().add(it)
             }
         } else {
             stack.peek().add(it)
