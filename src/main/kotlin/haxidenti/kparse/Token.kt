@@ -2,7 +2,7 @@ package haxidenti.kparse
 
 open class Token(val info: FileInfo, val symbols: Int, val nextLineSymbols: Int, val skipping: Boolean)
 
-typealias TokenMapper<T> = (T) -> Token
+typealias TokenMapper<T> = (T) -> Token?
 
 open class RegexToken(info: FileInfo, val value: String) :
     Token(info, value.length, value.count { it == '\n' }, false)

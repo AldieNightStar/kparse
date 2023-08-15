@@ -2,7 +2,7 @@ package haxidenti.kparse
 
 private val NUMBER_FLOAT = "-?\\d+\\.\\d+".toRegex()
 private val NUMBER_INT = "-?\\d+".toRegex()
-private val WORD = "[a-zA-Z_\$]+[0-9_\$a-zA-Z]+".toRegex()
+private val WORD = "[0-9_\$a-zA-Z]+".toRegex()
 private val SYMBOLS = "[!@#\$%^&*_=\\-+\\/\\\\.,;'|~:]?".toRegex()
 private val BRACKETS = "[()\\[\\]<>{}]".toRegex()
 
@@ -65,7 +65,14 @@ object Parsers {
         }
     }
 
-    val wordParser = regex(WORD) { WordToken(it.info, it.value) }
+    val wordParser = regex(WORD) {
+        // Do not allow number be first
+        if (it.value.first() !in "0123456789") {
+            WordToken(it.info, it.value)
+        } else {
+            null
+        }
+    }
 
     fun commentUntilNextLineParser(commentPrefix: String = "#"): ParserFunc = { info, src ->
         if (src.startsWith(commentPrefix)) {

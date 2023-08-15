@@ -36,4 +36,15 @@ class ParserTest {
         (toks[0] as WordToken).value eq "i32s"
         (toks[1] as NumberToken).value eq "23"
     }
+
+    @Test
+    fun testNamingWithSingleLetterWord() {
+        val src = "a b"
+
+        val toks = Parser.fullParser("Test").source(src).build().parse().toList()
+
+        toks.size eq 2
+        (toks[0] as WordToken).value eq "a"
+        (toks[1] as WordToken).value eq "b"
+    }
 }
