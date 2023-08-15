@@ -2,8 +2,8 @@ package haxidenti.kparse
 
 private val NUMBER_FLOAT = "-?\\d+\\.\\d+".toRegex()
 private val NUMBER_INT = "-?\\d+".toRegex()
-private val WORD = "[a-zA-Z_\$]+[a-zA-Z0-9_\$]?".toRegex()
-private val SYMBOLS = "[!@#\$%^&*_=\\-+\\/\\\\.,;'|~:]+".toRegex()
+private val WORD = "[a-zA-Z_\$]+[0-9_\$a-zA-Z]+".toRegex()
+private val SYMBOLS = "[!@#\$%^&*_=\\-+\\/\\\\.,;'|~:]?".toRegex()
 private val BRACKETS = "[()\\[\\]<>{}]".toRegex()
 
 object Parsers {
@@ -11,7 +11,12 @@ object Parsers {
     fun regex(regex: Regex, map: TokenMapper<RegexToken>): ParserFunc {
         val func: ParserFunc = { info: FileInfo, src: CharSequence ->
             regex.matchAt(src, 0)?.let {
-                RegexToken(info, it.value)
+                if (it.value.isNotEmpty()) {
+                    // Return if value is not empty
+                    RegexToken(info, it.value)
+                } else {
+                    null
+                }
             }
         }
         return func.useMapper(map)
@@ -75,7 +80,9 @@ object Parsers {
         }
     }
 
-    val whiteSpace = regex("\\s+".toRegex()) { WhiteSpaceToken(it.info, it.value) }
+    val whiteSpace = regex("\\s+".toRegex()) {
+        WhiteSpaceToken(it.info, it.value)
+    }
 
     val bracket = regex(BRACKETS) { BracketToken(it.info, it.value) }
 

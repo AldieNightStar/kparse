@@ -15,7 +15,7 @@ class ParserTest {
                 Parsers.operator,
                 Parsers.bracket
             )
-        ).parse().toList()
+        ).parseNoSkip().toList()
 
         (tokens[0] as StringToken).value eq "alone"
         (tokens[1] as WhiteSpaceToken).symbols eq 2
@@ -24,5 +24,15 @@ class ParserTest {
         (tokens[4] as NumberToken).number eq 123.toDouble()
         (tokens[5] as BracketToken).apply { value eq "("; isOpen eq true }
         (tokens[6] as BracketToken).apply { value eq ")"; isOpen eq false }
+    }
+
+    @Test
+    fun testNamingWithSymbolsInTheMiddle() {
+        val src = "i32s"
+
+        val toks = Parser.fullParser("Test").source(src).build().parse().toList()
+
+        toks.size eq 1
+        (toks[0] as WordToken).value eq "i32s"
     }
 }

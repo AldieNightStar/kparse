@@ -7,7 +7,7 @@ class ParserBuilderTest {
     @Test
     fun allParsersTest() {
         val p = Parser.fullParser("abc").source("abc 123  \n 'xxx'").build()
-        val tokens = p.parse().toList()
+        val tokens = p.parseNoSkip().toList()
 
         tokens.size eq 5
 
